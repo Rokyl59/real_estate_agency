@@ -3,7 +3,13 @@ from django.contrib import admin
 from .models import Flat, Complaint, Owner
 
 
+class OwnerInline(admin.TabularInline):
+    model = Flat.owners.through
+    raw_id_fields = ('owner',)
+
+
 class FlatAdmin(admin.ModelAdmin):
+    inlines = [OwnerInline]
     search_fields = ['town', 'address', 'owner', 'owners_phonenumber']
     readonly_fields = ['created_at']
     list_display = [
