@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Flat, Complaint
+from .models import Flat, Complaint, Owner
 
 
 class FlatAdmin(admin.ModelAdmin):
@@ -25,5 +25,19 @@ class ComplaintAdmin(admin.ModelAdmin):
     raw_id_fields = ['user', 'flat']
 
 
+class OwnerAdmin(admin.ModelAdmin):
+    list_display = ['name', 'phonenumber', 'owner_pure_phone']
+    search_fields = ['name', 'phonenumber']
+    raw_id_fields = ['flats']
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['phonenumber'].label = "Номер владельца"
+        form.base_fields['owner_pure_phone'].label = "Нормализованный номер владельца"
+        form.base_fields['name'].label = "ФИО владельца"
+        return form
+
+
+admin.site.register(Owner, OwnerAdmin)
 admin.site.register(Complaint, ComplaintAdmin)
 admin.site.register(Flat, FlatAdmin)
