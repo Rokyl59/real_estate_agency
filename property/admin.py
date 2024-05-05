@@ -8,6 +8,7 @@ class OwnerInline(admin.TabularInline):
     raw_id_fields = ('owner',)
 
 
+@admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
     inlines = [OwnerInline]
     search_fields = ['town', 'address', 'owner', 'owners_phonenumber']
@@ -26,11 +27,13 @@ class FlatAdmin(admin.ModelAdmin):
     raw_id_fields = ['likes']
 
 
+@admin.register(Complaint)
 class ComplaintAdmin(admin.ModelAdmin):
     list_display = ['user', 'flat', 'created_at']
     raw_id_fields = ['user', 'flat']
 
 
+@admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
     list_display = ['name', 'phonenumber', 'owner_pure_phone']
     search_fields = ['name', 'phonenumber']
@@ -42,8 +45,3 @@ class OwnerAdmin(admin.ModelAdmin):
         form.base_fields['owner_pure_phone'].label = "Нормализованный номер владельца"
         form.base_fields['name'].label = "ФИО владельца"
         return form
-
-
-admin.site.register(Owner, OwnerAdmin)
-admin.site.register(Complaint, ComplaintAdmin)
-admin.site.register(Flat, FlatAdmin)
