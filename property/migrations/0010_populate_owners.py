@@ -1,11 +1,11 @@
 from django.db import migrations
 import phonenumbers
 
+
 def create_owners(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
-    flats = Flat.objects.all()
-    for flat in flats:
+    for flat in Flat.objects.all().iterator():
         phone_number = flat.owners_phonenumber
         try:
             parsed_phone = phonenumbers.parse(phone_number, 'RU') if phone_number else None
@@ -22,6 +22,7 @@ def create_owners(apps, schema_editor):
             continue
         except ValueError:
             continue
+
 
 class Migration(migrations.Migration):
 
