@@ -33,13 +33,13 @@ class ComplaintAdmin(admin.ModelAdmin):
 
 @admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
-    list_display = ['name', 'phonenumber', 'owner_pure_phone']
+    list_display = ['name', 'phonenumber', 'pure_phone']
     search_fields = ['name', 'phonenumber']
     raw_id_fields = ['flats']
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         form.base_fields['phonenumber'].label = "Номер владельца"
-        form.base_fields['owner_pure_phone'].label = "Нормализованный номер владельца"
+        form.base_fields['pure_phone'].label = "Нормализованный номер владельца"
         form.base_fields['name'].label = "ФИО владельца"
         return form
